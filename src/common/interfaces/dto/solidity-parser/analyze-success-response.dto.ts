@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { ISolidityParserResponse } from '../../solidity-parser';
+import { SOLIDITY_PARSER_ACTION_STATUS } from '../../messages/solidity-parser/index.enum';
 
 export class AnalyzeSuccessResponseDTO {
   @ApiProperty({
@@ -8,7 +9,7 @@ export class AnalyzeSuccessResponseDTO {
   status: number;
 
   @ApiProperty({
-    example: 'analyze_solidity_parser_success',
+    example: SOLIDITY_PARSER_ACTION_STATUS.ANALYZE_SOLIDITY_PARSER_SUCCESS,
   })
   message: string;
 
