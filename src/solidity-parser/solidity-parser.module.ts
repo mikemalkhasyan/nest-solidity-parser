@@ -4,6 +4,6 @@ import { SolidityParserController } from './solidity-parser.controller';
 
 @Module({
   controllers: [SolidityParserController],
-  providers: [SolidityParserService]
+  providers: [SolidityParserService],
 })
 export class SolidityParserModule {}
