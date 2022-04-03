@@ -1,6 +1,7 @@
-import { Body, Controller, Get, HttpStatus, Res } from '@nestjs/common';
+import { Body, Controller, Post, HttpStatus, Res } from '@nestjs/common';
 import { ApiInternalServerErrorResponse, ApiOkResponse } from '@nestjs/swagger';
 import { Response } from 'express';
+import * as Parser from '@solidity-parser/parser';
 
 import {
   AnalyzeFormParamsDTO,
@@ -22,15 +23,17 @@ export class SolidityParserController {
   @ApiInternalServerErrorResponse({
     type: AnalyzeInternalErrorResponseDTO,
   })
-  @Get('/analyze')
+  @Post('/analyze')
   async analyze(
     @Body() body: AnalyzeFormParamsDTO,
     @Res() res: Response,
   ): Promise<void> {
+    const solidityCode = body.code;
     let result: APICommonResponse<ISolidityParserResponse>;
 
     try {
-      // TODO: Implement solidity code parsing logic
+      const ast = Parser.parse(solidityCode);
+      console.log(ast);
     } catch (e) {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR);
       result = internalErrorResponseMaker(e);
