@@ -27,15 +27,7 @@ export class SolidityParserController {
     @Body() body: AnalyzeFormParamsDTO,
     @Res() res: Response,
   ): Promise<void> {
-    let result: APICommonResponse<ISolidityParserResponse> = {
-      status: HttpStatus.OK,
-      message: 'response_message',
-      data: {
-        imports: [],
-        contracts: [],
-      },
-      error: '',
-    };
+    let result: APICommonResponse<ISolidityParserResponse>;
 
     try {
       // TODO: Implement solidity code parsing logic
