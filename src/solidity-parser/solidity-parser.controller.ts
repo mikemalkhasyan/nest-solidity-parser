@@ -12,10 +12,11 @@ import { APICommonResponse } from '../common/interfaces/api-common-respone.inter
 import { ISolidityParserResponse } from '../common/interfaces/solidity-parser';
 import { internalErrorResponseMaker } from '../common/utils/error-response-maker';
 import { SolidityParserService } from './solidity-parser.service';
+import { SOLIDITY_PARSER_ACTION_STATUS } from '../common/interfaces/messages/solidity-parser/index.enum';
 
 @Controller('/')
 export class SolidityParserController {
-  constructor(private readonly solidityParserService: SolidityParserService) {}
+  constructor(private readonly service: SolidityParserService) {}
 
   @ApiOkResponse({
     type: AnalyzeSuccessResponseDTO,
@@ -33,7 +34,15 @@ export class SolidityParserController {
 
     try {
       const ast = Parser.parse(solidityCode);
-      console.log(ast);
+      const parsedValidData = this.service.convertSolidityObject(ast);
+
+      res.status(HttpStatus.OK);
+      result = {
+        status: HttpStatus.OK,
+        message: SOLIDITY_PARSER_ACTION_STATUS.ANALYZE_SOLIDITY_PARSER_SUCCESS,
+        data: parsedValidData,
+        error: null,
+      };
     } catch (e) {
       res.status(HttpStatus.INTERNAL_SERVER_ERROR);
       result = internalErrorResponseMaker(e);
